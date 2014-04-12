@@ -2,6 +2,7 @@
 
 #include "stdafx.h"
 #include "MainForm.h"
+#include "CreateMenuForm.h"
 
 using namespace MDP;
 
