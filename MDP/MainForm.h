@@ -3,7 +3,6 @@
 #include "SaveResultForm.h"
 
 namespace MDP {
-
 	using namespace System;
 	using namespace System::ComponentModel;
 	using namespace System::Collections;
@@ -89,7 +88,7 @@ namespace MDP {
 			this->buttonAnalyseImage->Size = System::Drawing::Size(150, 72);
 			this->buttonAnalyseImage->TabIndex = 0;
 			this->buttonAnalyseImage->UseVisualStyleBackColor = true;
-			this->buttonAnalyseImage->Click += gcnew System::EventHandler(this, &MainForm::button1_Click);
+			this->buttonAnalyseImage->Click += gcnew System::EventHandler(this, &MainForm::buttonAnalyseImage_Click);
 			// 
 			// label1
 			// 
@@ -110,7 +109,7 @@ namespace MDP {
 			this->buttonLoadAlgorithm->Size = System::Drawing::Size(72, 72);
 			this->buttonLoadAlgorithm->TabIndex = 0;
 			this->buttonLoadAlgorithm->UseVisualStyleBackColor = true;
-			this->buttonLoadAlgorithm->Click += gcnew System::EventHandler(this, &MainForm::button2_Click);
+			this->buttonLoadAlgorithm->Click += gcnew System::EventHandler(this, &MainForm::buttonLoadAlgorithm_Click);
 			// 
 			// buttonSaveAlgorithm
 			// 
@@ -121,7 +120,7 @@ namespace MDP {
 			this->buttonSaveAlgorithm->Size = System::Drawing::Size(150, 72);
 			this->buttonSaveAlgorithm->TabIndex = 0;
 			this->buttonSaveAlgorithm->UseVisualStyleBackColor = true;
-			this->buttonSaveAlgorithm->Click += gcnew System::EventHandler(this, &MainForm::button3_Click);
+			this->buttonSaveAlgorithm->Click += gcnew System::EventHandler(this, &MainForm::buttonSaveAlgorithm_Click);
 			// 
 			// label2
 			// 
@@ -143,7 +142,7 @@ namespace MDP {
 			this->buttonLoadImage->Size = System::Drawing::Size(150, 72);
 			this->buttonLoadImage->TabIndex = 0;
 			this->buttonLoadImage->UseVisualStyleBackColor = true;
-			this->buttonLoadImage->Click += gcnew System::EventHandler(this, &MainForm::button4_Click);
+			this->buttonLoadImage->Click += gcnew System::EventHandler(this, &MainForm::buttonLoadImage_Click);
 			// 
 			// buttonCreateAlgorithm
 			// 
@@ -153,7 +152,7 @@ namespace MDP {
 			this->buttonCreateAlgorithm->Size = System::Drawing::Size(72, 72);
 			this->buttonCreateAlgorithm->TabIndex = 0;
 			this->buttonCreateAlgorithm->UseVisualStyleBackColor = true;
-			this->buttonCreateAlgorithm->Click += gcnew System::EventHandler(this, &MainForm::button5_Click);
+			this->buttonCreateAlgorithm->Click += gcnew System::EventHandler(this, &MainForm::buttonCreateAlgorithm_Click);
 			// 
 			// buttonSaveResult
 			// 
@@ -164,7 +163,7 @@ namespace MDP {
 			this->buttonSaveResult->Size = System::Drawing::Size(150, 72);
 			this->buttonSaveResult->TabIndex = 0;
 			this->buttonSaveResult->UseVisualStyleBackColor = true;
-			this->buttonSaveResult->Click += gcnew System::EventHandler(this, &MainForm::button6_Click);
+			this->buttonSaveResult->Click += gcnew System::EventHandler(this, &MainForm::buttonSaveResult_Click);
 			// 
 			// pictureBox1
 			// 
@@ -181,7 +180,7 @@ namespace MDP {
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->BackColor = System::Drawing::SystemColors::ControlDarkDark;
-			this->ClientSize = System::Drawing::Size(329, 488);
+			this->ClientSize = System::Drawing::Size(329, 466);
 			this->Controls->Add(this->pictureBox1);
 			this->Controls->Add(this->label2);
 			this->Controls->Add(this->label1);
@@ -198,19 +197,32 @@ namespace MDP {
 
 		}
 #pragma endregion
+
 	private: System::Void SetActive()
 			 {			 
 				 buttonSaveAlgorithm->Enabled = true; 
 				 buttonLoadImage->Enabled = true;
 			 }
 
-	private: System::Void button5_Click(System::Object^  sender, System::EventArgs^  e) 
+	private: System::Void buttonCreateAlgorithm_Click(System::Object^  sender, System::EventArgs^  e) 
 			 {
 				 CreateMenuForm ^createMenuForm = gcnew CreateMenuForm();
 				 createMenuForm->ShowDialog();
 				 SetActive();
 			 }
-	private: System::Void button4_Click(System::Object^  sender, System::EventArgs^  e) 
+
+	private: System::Void buttonLoadAlgorithm_Click(System::Object^  sender, System::EventArgs^  e) 
+			 {
+				 MessageBox::Show("Здесь будет функция загрузки алгоритма");
+				 SetActive();
+			 }
+
+	private: System::Void buttonSaveAlgorithm_Click(System::Object^  sender, System::EventArgs^  e) 
+			 {
+				 MessageBox::Show("Здесь будет функция сохранения алгоритма");
+			 }
+
+	private: System::Void buttonLoadImage_Click(System::Object^  sender, System::EventArgs^  e) 
 			 {
 				 OpenFileDialog ^openFileDialog = gcnew OpenFileDialog();
 				 openFileDialog->Filter = ".bmp|*.bmp|.jpg|*.jpg";
@@ -231,24 +243,16 @@ namespace MDP {
 				 }
 			 }
 
-	private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e) 
+	private: System::Void buttonAnalyseImage_Click(System::Object^  sender, System::EventArgs^  e) 
 			 {
 				 MessageBox::Show("Здесь будет функция обработки изображения");
 				 buttonSaveResult->Enabled = true;
 			 }
-	private: System::Void button6_Click(System::Object^  sender, System::EventArgs^  e) 
+
+	private: System::Void buttonSaveResult_Click(System::Object^  sender, System::EventArgs^  e) 
 			 {
 				 SaveResultForm ^saveResultForm = gcnew SaveResultForm();
 				 saveResultForm->ShowDialog();
-			 }
-	private: System::Void button2_Click(System::Object^  sender, System::EventArgs^  e) 
-			 {
-				 MessageBox::Show("Здесь будет функция загрузки алгоритма");
-				 SetActive();
-			 }
-	private: System::Void button3_Click(System::Object^  sender, System::EventArgs^  e) 
-			 {
-				 MessageBox::Show("Здесь будет функция сохранения алгоритма");
 			 }
 };
 }
