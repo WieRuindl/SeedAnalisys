@@ -36,15 +36,22 @@ namespace MDP {
 				delete components;
 			}
 		}
-	private: System::Windows::Forms::Button^  button1;
+	private: System::Windows::Forms::Button^  buttonAnalyseImage;
+	protected: 
+
 	protected: 
 	private: System::Windows::Forms::Label^  label1;
-	private: System::Windows::Forms::Button^  button2;
-	private: System::Windows::Forms::Button^  button3;
+	private: System::Windows::Forms::Button^  buttonLoadAlgorithm;
+	private: System::Windows::Forms::Button^  buttonSaveAlgorithm;
+
+
 	private: System::Windows::Forms::Label^  label2;
-	private: System::Windows::Forms::Button^  button4;
-	private: System::Windows::Forms::Button^  button5;
-	private: System::Windows::Forms::Button^  button6;
+	private: System::Windows::Forms::Button^  buttonLoadImage;
+
+	private: System::Windows::Forms::Button^  buttonCreateAlgorithm;
+	private: System::Windows::Forms::Button^  buttonSaveResult;
+
+
 	private: System::Windows::Forms::PictureBox^  pictureBox1;
 
 	private:
@@ -61,27 +68,28 @@ namespace MDP {
 		void InitializeComponent(void)
 		{
 			System::ComponentModel::ComponentResourceManager^  resources = (gcnew System::ComponentModel::ComponentResourceManager(MainForm::typeid));
-			this->button1 = (gcnew System::Windows::Forms::Button());
+			this->buttonAnalyseImage = (gcnew System::Windows::Forms::Button());
 			this->label1 = (gcnew System::Windows::Forms::Label());
-			this->button2 = (gcnew System::Windows::Forms::Button());
-			this->button3 = (gcnew System::Windows::Forms::Button());
+			this->buttonLoadAlgorithm = (gcnew System::Windows::Forms::Button());
+			this->buttonSaveAlgorithm = (gcnew System::Windows::Forms::Button());
 			this->label2 = (gcnew System::Windows::Forms::Label());
-			this->button4 = (gcnew System::Windows::Forms::Button());
-			this->button5 = (gcnew System::Windows::Forms::Button());
-			this->button6 = (gcnew System::Windows::Forms::Button());
+			this->buttonLoadImage = (gcnew System::Windows::Forms::Button());
+			this->buttonCreateAlgorithm = (gcnew System::Windows::Forms::Button());
+			this->buttonSaveResult = (gcnew System::Windows::Forms::Button());
 			this->pictureBox1 = (gcnew System::Windows::Forms::PictureBox());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->pictureBox1))->BeginInit();
 			this->SuspendLayout();
 			// 
-			// button1
+			// buttonAnalyseImage
 			// 
-			this->button1->Image = (cli::safe_cast<System::Drawing::Image^  >(resources->GetObject(L"button1.Image")));
-			this->button1->Location = System::Drawing::Point(15, 305);
-			this->button1->Name = L"button1";
-			this->button1->Size = System::Drawing::Size(150, 72);
-			this->button1->TabIndex = 0;
-			this->button1->UseVisualStyleBackColor = true;
-			this->button1->Click += gcnew System::EventHandler(this, &MainForm::button1_Click);
+			this->buttonAnalyseImage->Enabled = false;
+			this->buttonAnalyseImage->Image = (cli::safe_cast<System::Drawing::Image^  >(resources->GetObject(L"buttonAnalyseImage.Image")));
+			this->buttonAnalyseImage->Location = System::Drawing::Point(15, 305);
+			this->buttonAnalyseImage->Name = L"buttonAnalyseImage";
+			this->buttonAnalyseImage->Size = System::Drawing::Size(150, 72);
+			this->buttonAnalyseImage->TabIndex = 0;
+			this->buttonAnalyseImage->UseVisualStyleBackColor = true;
+			this->buttonAnalyseImage->Click += gcnew System::EventHandler(this, &MainForm::button1_Click);
 			// 
 			// label1
 			// 
@@ -94,25 +102,26 @@ namespace MDP {
 			this->label1->TabIndex = 1;
 			this->label1->Text = L"Алгоритм:";
 			// 
-			// button2
+			// buttonLoadAlgorithm
 			// 
-			this->button2->Image = (cli::safe_cast<System::Drawing::Image^  >(resources->GetObject(L"button2.Image")));
-			this->button2->Location = System::Drawing::Point(171, 28);
-			this->button2->Name = L"button2";
-			this->button2->Size = System::Drawing::Size(72, 72);
-			this->button2->TabIndex = 0;
-			this->button2->UseVisualStyleBackColor = true;
-			this->button2->Click += gcnew System::EventHandler(this, &MainForm::button2_Click);
+			this->buttonLoadAlgorithm->Image = (cli::safe_cast<System::Drawing::Image^  >(resources->GetObject(L"buttonLoadAlgorithm.Image")));
+			this->buttonLoadAlgorithm->Location = System::Drawing::Point(171, 28);
+			this->buttonLoadAlgorithm->Name = L"buttonLoadAlgorithm";
+			this->buttonLoadAlgorithm->Size = System::Drawing::Size(72, 72);
+			this->buttonLoadAlgorithm->TabIndex = 0;
+			this->buttonLoadAlgorithm->UseVisualStyleBackColor = true;
+			this->buttonLoadAlgorithm->Click += gcnew System::EventHandler(this, &MainForm::button2_Click);
 			// 
-			// button3
+			// buttonSaveAlgorithm
 			// 
-			this->button3->Image = (cli::safe_cast<System::Drawing::Image^  >(resources->GetObject(L"button3.Image")));
-			this->button3->Location = System::Drawing::Point(93, 116);
-			this->button3->Name = L"button3";
-			this->button3->Size = System::Drawing::Size(150, 72);
-			this->button3->TabIndex = 0;
-			this->button3->UseVisualStyleBackColor = true;
-			this->button3->Click += gcnew System::EventHandler(this, &MainForm::button3_Click);
+			this->buttonSaveAlgorithm->Enabled = false;
+			this->buttonSaveAlgorithm->Image = (cli::safe_cast<System::Drawing::Image^  >(resources->GetObject(L"buttonSaveAlgorithm.Image")));
+			this->buttonSaveAlgorithm->Location = System::Drawing::Point(93, 116);
+			this->buttonSaveAlgorithm->Name = L"buttonSaveAlgorithm";
+			this->buttonSaveAlgorithm->Size = System::Drawing::Size(150, 72);
+			this->buttonSaveAlgorithm->TabIndex = 0;
+			this->buttonSaveAlgorithm->UseVisualStyleBackColor = true;
+			this->buttonSaveAlgorithm->Click += gcnew System::EventHandler(this, &MainForm::button3_Click);
 			// 
 			// label2
 			// 
@@ -125,35 +134,37 @@ namespace MDP {
 			this->label2->TabIndex = 1;
 			this->label2->Text = L"Работа над изображением:";
 			// 
-			// button4
+			// buttonLoadImage
 			// 
-			this->button4->Image = (cli::safe_cast<System::Drawing::Image^  >(resources->GetObject(L"button4.Image")));
-			this->button4->Location = System::Drawing::Point(15, 227);
-			this->button4->Name = L"button4";
-			this->button4->Size = System::Drawing::Size(150, 72);
-			this->button4->TabIndex = 0;
-			this->button4->UseVisualStyleBackColor = true;
-			this->button4->Click += gcnew System::EventHandler(this, &MainForm::button4_Click);
+			this->buttonLoadImage->Enabled = false;
+			this->buttonLoadImage->Image = (cli::safe_cast<System::Drawing::Image^  >(resources->GetObject(L"buttonLoadImage.Image")));
+			this->buttonLoadImage->Location = System::Drawing::Point(15, 227);
+			this->buttonLoadImage->Name = L"buttonLoadImage";
+			this->buttonLoadImage->Size = System::Drawing::Size(150, 72);
+			this->buttonLoadImage->TabIndex = 0;
+			this->buttonLoadImage->UseVisualStyleBackColor = true;
+			this->buttonLoadImage->Click += gcnew System::EventHandler(this, &MainForm::button4_Click);
 			// 
-			// button5
+			// buttonCreateAlgorithm
 			// 
-			this->button5->Image = (cli::safe_cast<System::Drawing::Image^  >(resources->GetObject(L"button5.Image")));
-			this->button5->Location = System::Drawing::Point(93, 28);
-			this->button5->Name = L"button5";
-			this->button5->Size = System::Drawing::Size(72, 72);
-			this->button5->TabIndex = 0;
-			this->button5->UseVisualStyleBackColor = true;
-			this->button5->Click += gcnew System::EventHandler(this, &MainForm::button5_Click);
+			this->buttonCreateAlgorithm->Image = (cli::safe_cast<System::Drawing::Image^  >(resources->GetObject(L"buttonCreateAlgorithm.Image")));
+			this->buttonCreateAlgorithm->Location = System::Drawing::Point(93, 28);
+			this->buttonCreateAlgorithm->Name = L"buttonCreateAlgorithm";
+			this->buttonCreateAlgorithm->Size = System::Drawing::Size(72, 72);
+			this->buttonCreateAlgorithm->TabIndex = 0;
+			this->buttonCreateAlgorithm->UseVisualStyleBackColor = true;
+			this->buttonCreateAlgorithm->Click += gcnew System::EventHandler(this, &MainForm::button5_Click);
 			// 
-			// button6
+			// buttonSaveResult
 			// 
-			this->button6->Image = (cli::safe_cast<System::Drawing::Image^  >(resources->GetObject(L"button6.Image")));
-			this->button6->Location = System::Drawing::Point(15, 383);
-			this->button6->Name = L"button6";
-			this->button6->Size = System::Drawing::Size(150, 72);
-			this->button6->TabIndex = 0;
-			this->button6->UseVisualStyleBackColor = true;
-			this->button6->Click += gcnew System::EventHandler(this, &MainForm::button6_Click);
+			this->buttonSaveResult->Enabled = false;
+			this->buttonSaveResult->Image = (cli::safe_cast<System::Drawing::Image^  >(resources->GetObject(L"buttonSaveResult.Image")));
+			this->buttonSaveResult->Location = System::Drawing::Point(15, 383);
+			this->buttonSaveResult->Name = L"buttonSaveResult";
+			this->buttonSaveResult->Size = System::Drawing::Size(150, 72);
+			this->buttonSaveResult->TabIndex = 0;
+			this->buttonSaveResult->UseVisualStyleBackColor = true;
+			this->buttonSaveResult->Click += gcnew System::EventHandler(this, &MainForm::button6_Click);
 			// 
 			// pictureBox1
 			// 
@@ -174,12 +185,12 @@ namespace MDP {
 			this->Controls->Add(this->pictureBox1);
 			this->Controls->Add(this->label2);
 			this->Controls->Add(this->label1);
-			this->Controls->Add(this->button3);
-			this->Controls->Add(this->button2);
-			this->Controls->Add(this->button6);
-			this->Controls->Add(this->button5);
-			this->Controls->Add(this->button4);
-			this->Controls->Add(this->button1);
+			this->Controls->Add(this->buttonSaveAlgorithm);
+			this->Controls->Add(this->buttonLoadAlgorithm);
+			this->Controls->Add(this->buttonSaveResult);
+			this->Controls->Add(this->buttonCreateAlgorithm);
+			this->Controls->Add(this->buttonLoadImage);
+			this->Controls->Add(this->buttonAnalyseImage);
 			this->Name = L"MainForm";
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->pictureBox1))->EndInit();
 			this->ResumeLayout(false);
@@ -187,10 +198,17 @@ namespace MDP {
 
 		}
 #pragma endregion
+	private: System::Void SetActive()
+			 {			 
+				 buttonSaveAlgorithm->Enabled = true; 
+				 buttonLoadImage->Enabled = true;
+			 }
+
 	private: System::Void button5_Click(System::Object^  sender, System::EventArgs^  e) 
 			 {
 				 CreateMenuForm ^createMenuForm = gcnew CreateMenuForm();
 				 createMenuForm->ShowDialog();
+				 SetActive();
 			 }
 	private: System::Void button4_Click(System::Object^  sender, System::EventArgs^  e) 
 			 {
@@ -204,6 +222,8 @@ namespace MDP {
 					 fileStream->Close();
 
 					 pictureBox1->Image = img;
+
+					 buttonAnalyseImage->Enabled = true;				 
 				 }
 				 else
 				 {
@@ -213,6 +233,8 @@ namespace MDP {
 
 	private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e) 
 			 {
+				 MessageBox::Show("Здесь будет функция обработки изображения");
+				 buttonSaveResult->Enabled = true;
 			 }
 	private: System::Void button6_Click(System::Object^  sender, System::EventArgs^  e) 
 			 {
@@ -221,9 +243,12 @@ namespace MDP {
 			 }
 	private: System::Void button2_Click(System::Object^  sender, System::EventArgs^  e) 
 			 {
+				 MessageBox::Show("Здесь будет функция загрузки алгоритма");
+				 SetActive();
 			 }
 	private: System::Void button3_Click(System::Object^  sender, System::EventArgs^  e) 
 			 {
+				 MessageBox::Show("Здесь будет функция сохранения алгоритма");
 			 }
 };
 }
