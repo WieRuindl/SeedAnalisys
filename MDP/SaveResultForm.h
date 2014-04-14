@@ -34,14 +34,19 @@ namespace MDP {
 				delete components;
 			}
 		}
-	private: System::Windows::Forms::ListBox^  listBox1;
+	private: System::Windows::Forms::ListBox^  listBoxClassNames;
+	protected: 
+
 	protected: 
 	private: System::Windows::Forms::Label^  label1;
 	private: System::Windows::Forms::Label^  label2;
-	private: System::Windows::Forms::TextBox^  textBox1;
+	private: System::Windows::Forms::TextBox^  textBoxClassName;
+
 	private: System::Windows::Forms::Label^  label3;
-	private: System::Windows::Forms::Button^  button1;
-	private: System::Windows::Forms::Button^  button2;
+	private: System::Windows::Forms::Button^  buttonSaveInClass;
+	private: System::Windows::Forms::Button^  buttonCreateNewClass;
+
+
 
 	private:
 		/// <summary>
@@ -56,22 +61,22 @@ namespace MDP {
 		/// </summary>
 		void InitializeComponent(void)
 		{
-			this->listBox1 = (gcnew System::Windows::Forms::ListBox());
+			this->listBoxClassNames = (gcnew System::Windows::Forms::ListBox());
 			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->label2 = (gcnew System::Windows::Forms::Label());
-			this->textBox1 = (gcnew System::Windows::Forms::TextBox());
+			this->textBoxClassName = (gcnew System::Windows::Forms::TextBox());
 			this->label3 = (gcnew System::Windows::Forms::Label());
-			this->button1 = (gcnew System::Windows::Forms::Button());
-			this->button2 = (gcnew System::Windows::Forms::Button());
+			this->buttonSaveInClass = (gcnew System::Windows::Forms::Button());
+			this->buttonCreateNewClass = (gcnew System::Windows::Forms::Button());
 			this->SuspendLayout();
 			// 
-			// listBox1
+			// listBoxClassNames
 			// 
-			this->listBox1->FormattingEnabled = true;
-			this->listBox1->Location = System::Drawing::Point(12, 28);
-			this->listBox1->Name = L"listBox1";
-			this->listBox1->Size = System::Drawing::Size(181, 134);
-			this->listBox1->TabIndex = 0;
+			this->listBoxClassNames->FormattingEnabled = true;
+			this->listBoxClassNames->Location = System::Drawing::Point(12, 28);
+			this->listBoxClassNames->Name = L"listBoxClassNames";
+			this->listBoxClassNames->Size = System::Drawing::Size(181, 134);
+			this->listBoxClassNames->TabIndex = 0;
 			// 
 			// label1
 			// 
@@ -95,13 +100,13 @@ namespace MDP {
 			this->label2->TabIndex = 2;
 			this->label2->Text = L"Создать новый класс:";
 			// 
-			// textBox1
+			// textBoxClassName
 			// 
-			this->textBox1->Location = System::Drawing::Point(110, 208);
-			this->textBox1->Multiline = true;
-			this->textBox1->Name = L"textBox1";
-			this->textBox1->Size = System::Drawing::Size(83, 25);
-			this->textBox1->TabIndex = 3;
+			this->textBoxClassName->Location = System::Drawing::Point(110, 208);
+			this->textBoxClassName->Multiline = true;
+			this->textBoxClassName->Name = L"textBoxClassName";
+			this->textBoxClassName->Size = System::Drawing::Size(83, 25);
+			this->textBoxClassName->TabIndex = 3;
 			// 
 			// label3
 			// 
@@ -114,23 +119,23 @@ namespace MDP {
 			this->label3->TabIndex = 4;
 			this->label3->Text = L"Имя класса";
 			// 
-			// button1
+			// buttonSaveInClass
 			// 
-			this->button1->Location = System::Drawing::Point(199, 112);
-			this->button1->Name = L"button1";
-			this->button1->Size = System::Drawing::Size(100, 50);
-			this->button1->TabIndex = 5;
-			this->button1->Text = L"Сохранить в выбранный класс";
-			this->button1->UseVisualStyleBackColor = true;
+			this->buttonSaveInClass->Location = System::Drawing::Point(199, 112);
+			this->buttonSaveInClass->Name = L"buttonSaveInClass";
+			this->buttonSaveInClass->Size = System::Drawing::Size(100, 50);
+			this->buttonSaveInClass->TabIndex = 5;
+			this->buttonSaveInClass->Text = L"Сохранить в выбранный класс";
+			this->buttonSaveInClass->UseVisualStyleBackColor = true;
 			// 
-			// button2
+			// buttonCreateNewClass
 			// 
-			this->button2->Location = System::Drawing::Point(199, 208);
-			this->button2->Name = L"button2";
-			this->button2->Size = System::Drawing::Size(100, 25);
-			this->button2->TabIndex = 6;
-			this->button2->Text = L"Создать";
-			this->button2->UseVisualStyleBackColor = true;
+			this->buttonCreateNewClass->Location = System::Drawing::Point(199, 208);
+			this->buttonCreateNewClass->Name = L"buttonCreateNewClass";
+			this->buttonCreateNewClass->Size = System::Drawing::Size(100, 25);
+			this->buttonCreateNewClass->TabIndex = 6;
+			this->buttonCreateNewClass->Text = L"Создать";
+			this->buttonCreateNewClass->UseVisualStyleBackColor = true;
 			// 
 			// SaveResultForm
 			// 
@@ -138,13 +143,13 @@ namespace MDP {
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->BackColor = System::Drawing::SystemColors::ControlDarkDark;
 			this->ClientSize = System::Drawing::Size(310, 246);
-			this->Controls->Add(this->button2);
-			this->Controls->Add(this->button1);
+			this->Controls->Add(this->buttonCreateNewClass);
+			this->Controls->Add(this->buttonSaveInClass);
 			this->Controls->Add(this->label3);
-			this->Controls->Add(this->textBox1);
+			this->Controls->Add(this->textBoxClassName);
 			this->Controls->Add(this->label2);
 			this->Controls->Add(this->label1);
-			this->Controls->Add(this->listBox1);
+			this->Controls->Add(this->listBoxClassNames);
 			this->Name = L"SaveResultForm";
 			this->ResumeLayout(false);
 			this->PerformLayout();

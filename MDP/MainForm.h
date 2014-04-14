@@ -215,7 +215,7 @@ namespace MDP {
 			 {
 				 OpenFileDialog ^openFileDialog = gcnew OpenFileDialog();
 				 openFileDialog->Title = "Выберите файл с алгоритмом";
-				 openFileDialog->Filter = ".pst|*.pst";
+				 openFileDialog->Filter = "Algorithm Files|*.pst";
 				 
 				 if (openFileDialog->ShowDialog() == System::Windows::Forms::DialogResult::OK)
 				 {
@@ -239,7 +239,7 @@ namespace MDP {
 			 {
 				 SaveFileDialog ^saveFileDialog = gcnew SaveFileDialog();
 				 saveFileDialog->Title = "Сохраните файл с алгоритмом";
-				 saveFileDialog->Filter = ".pst|*.pst";
+				 saveFileDialog->Filter = "Algorithm Files|*.pst";
 				 
 				 if (saveFileDialog->ShowDialog() == System::Windows::Forms::DialogResult::OK)
 				 {
@@ -263,7 +263,7 @@ namespace MDP {
 			 {
 				 OpenFileDialog ^openFileDialog = gcnew OpenFileDialog();
 				 openFileDialog->Title = "Выберите изображение";
-				 openFileDialog->Filter = ".bmp|*.bmp|.jpg|*.jpg";
+				 openFileDialog->Filter = "Image Files|*.bmp; *.jpg";
 				 
 				 if (openFileDialog->ShowDialog() == System::Windows::Forms::DialogResult::OK)
 				 {

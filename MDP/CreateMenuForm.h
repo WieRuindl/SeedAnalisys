@@ -39,7 +39,8 @@ namespace MDP {
 	private: System::Windows::Forms::Button^  button2;
 	private: System::Windows::Forms::Button^  button3;
 	private: System::Windows::Forms::Button^  button4;
-	private: System::Windows::Forms::Button^  button5;
+	private: System::Windows::Forms::Button^  buttonCreateAndReturn;
+
 	private: System::Windows::Forms::ListBox^  listBoxFunctions;
 	private: System::Windows::Forms::Label^  label1;
 	private: System::Windows::Forms::Label^  label2;
@@ -61,7 +62,7 @@ namespace MDP {
 			this->button2 = (gcnew System::Windows::Forms::Button());
 			this->button3 = (gcnew System::Windows::Forms::Button());
 			this->button4 = (gcnew System::Windows::Forms::Button());
-			this->button5 = (gcnew System::Windows::Forms::Button());
+			this->buttonCreateAndReturn = (gcnew System::Windows::Forms::Button());
 			this->listBoxFunctions = (gcnew System::Windows::Forms::ListBox());
 			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->label2 = (gcnew System::Windows::Forms::Label());
@@ -103,14 +104,14 @@ namespace MDP {
 			this->button4->Text = L"Формирование результата";
 			this->button4->UseVisualStyleBackColor = true;
 			// 
-			// button5
+			// buttonCreateAndReturn
 			// 
-			this->button5->Location = System::Drawing::Point(15, 224);
-			this->button5->Name = L"button5";
-			this->button5->Size = System::Drawing::Size(228, 40);
-			this->button5->TabIndex = 4;
-			this->button5->Text = L"Создать алгоритм и вернуться в меню";
-			this->button5->UseVisualStyleBackColor = true;
+			this->buttonCreateAndReturn->Location = System::Drawing::Point(15, 224);
+			this->buttonCreateAndReturn->Name = L"buttonCreateAndReturn";
+			this->buttonCreateAndReturn->Size = System::Drawing::Size(228, 40);
+			this->buttonCreateAndReturn->TabIndex = 4;
+			this->buttonCreateAndReturn->Text = L"Создать алгоритм и вернуться в меню";
+			this->buttonCreateAndReturn->UseVisualStyleBackColor = true;
 			// 
 			// listBoxFunctions
 			// 
@@ -151,7 +152,7 @@ namespace MDP {
 			this->Controls->Add(this->label2);
 			this->Controls->Add(this->label1);
 			this->Controls->Add(this->listBoxFunctions);
-			this->Controls->Add(this->button5);
+			this->Controls->Add(this->buttonCreateAndReturn);
 			this->Controls->Add(this->button4);
 			this->Controls->Add(this->button3);
 			this->Controls->Add(this->button2);
