@@ -213,29 +213,74 @@ namespace MDP {
 
 	private: System::Void buttonLoadAlgorithm_Click(System::Object^  sender, System::EventArgs^  e) 
 			 {
-				 MessageBox::Show("Здесь будет функция загрузки алгоритма");
-				 SetActive();
+				 OpenFileDialog ^openFileDialog = gcnew OpenFileDialog();
+				 openFileDialog->Title = "Выберите файл с алгоритмом";
+				 openFileDialog->Filter = ".pst|*.pst";
+				 
+				 if (openFileDialog->ShowDialog() == System::Windows::Forms::DialogResult::OK)
+				 {
+					 try
+					 {
+						 //cotainer->LoadFromFile(openFileDialog->FileName);
+						 SetActive();
+					 }
+					 catch(Exception^ exception)
+					 {
+						 MessageBox::Show("Произошла ошибка" + exception->ToString() + " в buttonLoadAlgorithm_Click =(");
+					 }	
+				 }
+				 else
+				 {
+					 MessageBox::Show("Вы не выбрали файл!");
+				 }	 
 			 }
 
 	private: System::Void buttonSaveAlgorithm_Click(System::Object^  sender, System::EventArgs^  e) 
 			 {
-				 MessageBox::Show("Здесь будет функция сохранения алгоритма");
+				 SaveFileDialog ^saveFileDialog = gcnew SaveFileDialog();
+				 saveFileDialog->Title = "Сохраните файл с алгоритмом";
+				 saveFileDialog->Filter = ".pst|*.pst";
+				 
+				 if (saveFileDialog->ShowDialog() == System::Windows::Forms::DialogResult::OK)
+				 {
+					 try
+					 {
+						 //cotainer->SaveToFile(openFileDialog->FileName);	
+						 MessageBox::Show("Здесь будет сохранение файла!");
+					 }
+					 catch(Exception^ exception)
+					 {
+						 MessageBox::Show("Произошла ошибка" + exception->ToString() + " в buttonSaveAlgorithm_Click =(");
+					 }					 	
+				 }
+				 else
+				 {
+					 MessageBox::Show("Вы не сохранили файл!");
+				 }	
 			 }
 
 	private: System::Void buttonLoadImage_Click(System::Object^  sender, System::EventArgs^  e) 
 			 {
 				 OpenFileDialog ^openFileDialog = gcnew OpenFileDialog();
+				 openFileDialog->Title = "Выберите изображение";
 				 openFileDialog->Filter = ".bmp|*.bmp|.jpg|*.jpg";
 				 
 				 if (openFileDialog->ShowDialog() == System::Windows::Forms::DialogResult::OK)
 				 {
-					 System::IO::FileStream ^fileStream = gcnew System::IO::FileStream(openFileDialog->FileName, System::IO::FileMode::Open);
-					 System::Drawing::Image ^img = System::Drawing::Image::FromStream(fileStream);
-					 fileStream->Close();
+					 try
+					 {
+						 System::IO::FileStream ^fileStream = gcnew System::IO::FileStream(openFileDialog->FileName, System::IO::FileMode::Open);
+					 	 System::Drawing::Image ^img = System::Drawing::Image::FromStream(fileStream);
+					 	 fileStream->Close();
 
-					 pictureBox1->Image = img;
+					 	 pictureBox1->Image = img;
 
-					 buttonAnalyseImage->Enabled = true;				 
+					 	 buttonAnalyseImage->Enabled = true;	
+					 }
+					 catch(Exception^ exception)
+					 {
+						 MessageBox::Show("Произошла ошибка" + exception->ToString() + " в buttonLoadImage_Click =(");
+					 }
 				 }
 				 else
 				 {
