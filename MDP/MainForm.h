@@ -198,17 +198,15 @@ namespace MDP {
 		}
 #pragma endregion
 
-	private: System::Void SetActive()
-			 {			 
-				 buttonSaveAlgorithm->Enabled = true; 
-				 buttonLoadImage->Enabled = true;
-			 }
-
 	private: System::Void buttonCreateAlgorithm_Click(System::Object^  sender, System::EventArgs^  e) 
 			 {
 				 CreateMenuForm ^createMenuForm = gcnew CreateMenuForm();
 				 createMenuForm->ShowDialog();
-				 SetActive();
+				 
+				 buttonLoadImage->Enabled = true;
+				 buttonSaveAlgorithm->Enabled = true; 
+				 buttonLoadAlgorithm->Enabled = false;
+				 buttonCreateAlgorithm->Enabled = false;
 			 }
 
 	private: System::Void buttonLoadAlgorithm_Click(System::Object^  sender, System::EventArgs^  e) 
@@ -222,7 +220,10 @@ namespace MDP {
 					 try
 					 {
 						 //cotainer->LoadFromFile(openFileDialog->FileName);
-						 SetActive();
+						 
+						 buttonSaveAlgorithm->Enabled = true; 
+						 buttonLoadAlgorithm->Enabled = false;
+						 buttonCreateAlgorithm->Enabled = false;	 
 					 }
 					 catch(Exception^ exception)
 					 {

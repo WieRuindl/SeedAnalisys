@@ -76,42 +76,51 @@ namespace MDP {
 			this->button1->TabIndex = 0;
 			this->button1->Text = L"Загрузить изображение";
 			this->button1->UseVisualStyleBackColor = true;
+			this->button1->Click += gcnew System::EventHandler(this, &CreateMenuForm::button1_Click);
 			// 
 			// button2
 			// 
+			this->button2->Enabled = false;
 			this->button2->Location = System::Drawing::Point(15, 70);
 			this->button2->Name = L"button2";
 			this->button2->Size = System::Drawing::Size(100, 39);
 			this->button2->TabIndex = 1;
 			this->button2->Text = L"Предобработка";
 			this->button2->UseVisualStyleBackColor = true;
+			this->button2->Click += gcnew System::EventHandler(this, &CreateMenuForm::button2_Click);
 			// 
 			// button3
 			// 
+			this->button3->Enabled = false;
 			this->button3->Location = System::Drawing::Point(15, 115);
 			this->button3->Name = L"button3";
 			this->button3->Size = System::Drawing::Size(100, 39);
 			this->button3->TabIndex = 2;
 			this->button3->Text = L"Анализ и сравнение";
 			this->button3->UseVisualStyleBackColor = true;
+			this->button3->Click += gcnew System::EventHandler(this, &CreateMenuForm::button3_Click);
 			// 
 			// button4
 			// 
+			this->button4->Enabled = false;
 			this->button4->Location = System::Drawing::Point(15, 159);
 			this->button4->Name = L"button4";
 			this->button4->Size = System::Drawing::Size(100, 39);
 			this->button4->TabIndex = 3;
 			this->button4->Text = L"Формирование результата";
 			this->button4->UseVisualStyleBackColor = true;
+			this->button4->Click += gcnew System::EventHandler(this, &CreateMenuForm::button4_Click);
 			// 
 			// buttonCreateAndReturn
 			// 
+			this->buttonCreateAndReturn->Enabled = false;
 			this->buttonCreateAndReturn->Location = System::Drawing::Point(15, 224);
 			this->buttonCreateAndReturn->Name = L"buttonCreateAndReturn";
 			this->buttonCreateAndReturn->Size = System::Drawing::Size(228, 40);
 			this->buttonCreateAndReturn->TabIndex = 4;
 			this->buttonCreateAndReturn->Text = L"Создать алгоритм и вернуться в меню";
 			this->buttonCreateAndReturn->UseVisualStyleBackColor = true;
+			this->buttonCreateAndReturn->Click += gcnew System::EventHandler(this, &CreateMenuForm::buttonCreateAndReturn_Click);
 			// 
 			// listBoxFunctions
 			// 
@@ -163,5 +172,29 @@ namespace MDP {
 
 		}
 #pragma endregion
-	};
+	private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e) 
+			 {
+				 button1->Enabled = false;
+				 button2->Enabled = true;
+			 }
+	private: System::Void button2_Click(System::Object^  sender, System::EventArgs^  e) 
+			 {
+				 button2->Enabled = false;
+				 button3->Enabled = true;
+			 }
+	private: System::Void button3_Click(System::Object^  sender, System::EventArgs^  e) 
+			 {
+				 button3->Enabled = false;
+				 button4->Enabled = true;
+			 }
+	private: System::Void button4_Click(System::Object^  sender, System::EventArgs^  e) 
+			 {
+				 button4->Enabled = false;
+				 buttonCreateAndReturn->Enabled = true;
+			 }
+	private: System::Void buttonCreateAndReturn_Click(System::Object^  sender, System::EventArgs^  e) 
+			 {
+			 
+			 }
+};
 }
