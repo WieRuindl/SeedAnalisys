@@ -22,6 +22,7 @@ namespace MDP {
 			//TODO: Add the constructor code here
 			//
 		}
+		
 
 	protected:
 		/// <summary>
@@ -166,6 +167,7 @@ namespace MDP {
 			this->Controls->Add(this->button3);
 			this->Controls->Add(this->button2);
 			this->Controls->Add(this->button1);
+			this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::FixedToolWindow;
 			this->Name = L"CreateMenuForm";
 			this->ResumeLayout(false);
 			this->PerformLayout();

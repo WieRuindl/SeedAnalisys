@@ -1,6 +1,7 @@
 #pragma once
 #include "CreateMenuForm.h"
 #include "SaveResultForm.h"
+#include "StaticClassFunctions.h"
 
 namespace MDP {
 	using namespace System;
@@ -19,15 +20,9 @@ namespace MDP {
 		MainForm(void)
 		{
 			InitializeComponent();
-			//
-			//TODO: Add the constructor code here
-			//
 		}
 
 	protected:
-		/// <summary>
-		/// Clean up any resources being used.
-		/// </summary>
 		~MainForm()
 		{
 			if (components)
@@ -43,27 +38,18 @@ namespace MDP {
 	private: System::Windows::Forms::Button^  buttonLoadAlgorithm;
 	private: System::Windows::Forms::Button^  buttonSaveAlgorithm;
 
-
 	private: System::Windows::Forms::Label^  label2;
 	private: System::Windows::Forms::Button^  buttonLoadImage;
 
 	private: System::Windows::Forms::Button^  buttonCreateAlgorithm;
 	private: System::Windows::Forms::Button^  buttonSaveResult;
 
-
 	private: System::Windows::Forms::PictureBox^  pictureBox1;
 
 	private:
-		/// <summary>
-		/// Required designer variable.
-		/// </summary>
 		System::ComponentModel::Container ^components;
 
 #pragma region Windows Form Designer generated code
-		/// <summary>
-		/// Required method for Designer support - do not modify
-		/// the contents of this method with the code editor.
-		/// </summary>
 		void InitializeComponent(void)
 		{
 			System::ComponentModel::ComponentResourceManager^  resources = (gcnew System::ComponentModel::ComponentResourceManager(MainForm::typeid));
@@ -198,16 +184,23 @@ namespace MDP {
 		}
 #pragma endregion
 
-	private: System::Void buttonCreateAlgorithm_Click(System::Object^  sender, System::EventArgs^  e) 
+	private: System::Void ChangeEnabled()
 			 {
-				 CreateMenuForm ^createMenuForm = gcnew CreateMenuForm();
-				 createMenuForm->ShowDialog();
-				 
-				 buttonLoadImage->Enabled = true;
 				 buttonSaveAlgorithm->Enabled = true; 
 				 buttonLoadAlgorithm->Enabled = false;
 				 buttonCreateAlgorithm->Enabled = false;
 			 }
+
+	private: System::Void buttonCreateAlgorithm_Click(System::Object^  sender, System::EventArgs^  e) 
+			 {
+				 CreateMenuForm ^createMenuForm = gcnew CreateMenuForm();
+				 createMenuForm->ShowDialog();
+
+				 buttonLoadImage->Enabled = true;
+				 ChangeEnabled();	
+			 }
+
+//	private: PSGraph ^container;
 
 	private: System::Void buttonLoadAlgorithm_Click(System::Object^  sender, System::EventArgs^  e) 
 			 {
@@ -219,11 +212,8 @@ namespace MDP {
 				 {
 					 try
 					 {
-						 //cotainer->LoadFromFile(openFileDialog->FileName);
-						 
-						 buttonSaveAlgorithm->Enabled = true; 
-						 buttonLoadAlgorithm->Enabled = false;
-						 buttonCreateAlgorithm->Enabled = false;	 
+						 //cotainer = gcnew PSGraph(openFileDialog->FileName);
+						 ChangeEnabled();						 	 
 					 }
 					 catch(Exception^ exception)
 					 {
@@ -260,6 +250,8 @@ namespace MDP {
 				 }	
 			 }
 
+	private: String ^pathToFile;
+	private: String ^pathToBase;
 	private: System::Void buttonLoadImage_Click(System::Object^  sender, System::EventArgs^  e) 
 			 {
 				 OpenFileDialog ^openFileDialog = gcnew OpenFileDialog();
@@ -270,28 +262,57 @@ namespace MDP {
 				 {
 					 try
 					 {
-						 System::IO::FileStream ^fileStream = gcnew System::IO::FileStream(openFileDialog->FileName, System::IO::FileMode::Open);
-					 	 System::Drawing::Image ^img = System::Drawing::Image::FromStream(fileStream);
-					 	 fileStream->Close();
-
-					 	 pictureBox1->Image = img;
-
-					 	 buttonAnalyseImage->Enabled = true;	
+						 pathToFile = openFileDialog->FileName;
+						 pictureBox1->Image = StaticClassFunctions::OpenImage(pathToFile);	
 					 }
 					 catch(Exception^ exception)
 					 {
 						 MessageBox::Show("Произошла ошибка" + exception->ToString() + " в buttonLoadImage_Click =(");
 					 }
 				 }
+
+				 FolderBrowserDialog ^folderBrowserDialog = gcnew FolderBrowserDialog();
+				 if (folderBrowserDialog->ShowDialog() == System::Windows::Forms::DialogResult::OK )
+				 {
+					 try
+					 {
+						 pathToBase = folderBrowserDialog->SelectedPath;
+					 }
+					 catch(Exception^ exception)
+					 {
+						 MessageBox::Show("Произошла ошибка" + exception->ToString() + " в buttonLoadImage_Click =(");
+					 }
+				 }
+
+				 if (pathToFile != nullptr && pathToBase != nullptr)
+				 {
+					 buttonAnalyseImage->Enabled = true;
+				 }
 				 else
 				 {
-					 MessageBox::Show("Вы не выбрали изображение!");
+					 if (pathToFile == nullptr) 
+					 {
+						 MessageBox::Show("Вы не выбрали изображение!");
+					 }
+					 else
+					 {
+						 MessageBox::Show("Вы не выбрали базу!");
+					 }
 				 }
 			 }
 
 	private: System::Void buttonAnalyseImage_Click(System::Object^  sender, System::EventArgs^  e) 
 			 {
-				 MessageBox::Show("Здесь будет функция обработки изображения");
+				 //MessageBox::Show("Здесь будет функция обработки изображения");
+				 Image ^img = pictureBox1->Image;
+				 Bitmap ^bmp = dynamic_cast<Bitmap^>(img);
+
+				 vector<int> analyseData; 
+				 analyseData = StaticClassFunctions::Prepare(bmp);
+				 pictureBox1->Image = StaticClassFunctions::Prepare1(bmp);;
+
+				 StaticClassFunctions::Analyse1(pathToBase);
+
 				 buttonSaveResult->Enabled = true;
 			 }
 
