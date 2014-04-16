@@ -31,7 +31,7 @@ namespace MDP {
 					double distance = Math::Pow(r - mid, 2) + Math::Pow(g - mid, 2) + Math::Pow(b - mid, 2);
 					
 					//экспериментально полученное значение
-					int minDistance = 3600;
+					int minDistance = 1600;
 
 					if (distance > minDistance)
 					{
@@ -71,7 +71,7 @@ namespace MDP {
 					double mid = 0.299 * (double)r + 0.587 * (double)g + 0.114 * (double)b;
 
 					double distance = Math::Pow(r - mid, 2) + Math::Pow(g - mid, 2) + Math::Pow(b - mid, 2);
-					int minDistance = 3600;
+					int minDistance = 1600;
 
 					if (distance <= minDistance)
 					{
@@ -91,14 +91,35 @@ namespace MDP {
 
 			for (int i = 0; i < subDirs->Length; i++)
 			{
-				FileInfo ^file = subDirs[i]->GetFiles()[0];
-				file->FullName;
+				//array<FileInfo^> ^files = subDirs[i]->GetFiles();
+				Console::WriteLine(subDirs[0]->Name);
 			}
 		}
 
-		static void Analyse1(String ^pathToBase)
+		static String^ Analyse1(String ^pathToBase)
 		{
+			try
+			{
+				String ^result = "";
 
+				System::IO::DirectoryInfo ^root = gcnew System::IO::DirectoryInfo(pathToBase);
+			
+				array<DirectoryInfo^> ^subDirs = root->GetDirectories();
+
+				for (int i = 0; i < subDirs->Length; i++)
+				{
+					FileInfo ^files = subDirs[i]->GetFiles()[0];
+
+					result += subDirs[i]->ToString();
+				}
+
+				return result;
+			}
+			catch(Exception ^exception)
+			{
+				MessageBox::Show("Ошибка " + exception->ToString() + ". Скорее всего вы выбрали неправильную папку в качестве базы");
+				return "";
+			}
 		}
 	};
 }

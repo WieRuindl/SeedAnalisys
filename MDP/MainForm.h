@@ -215,7 +215,7 @@ namespace MDP {
 						 //cotainer = gcnew PSGraph(openFileDialog->FileName);
 						 ChangeEnabled();						 	 
 					 }
-					 catch(Exception^ exception)
+					 catch(Exception ^exception)
 					 {
 						 MessageBox::Show("Произошла ошибка" + exception->ToString() + " в buttonLoadAlgorithm_Click =(");
 					 }	
@@ -311,9 +311,22 @@ namespace MDP {
 				 analyseData = StaticClassFunctions::Prepare(bmp);
 				 pictureBox1->Image = StaticClassFunctions::Prepare1(bmp);;
 
-				 StaticClassFunctions::Analyse1(pathToBase);
+				 SaveFileDialog ^saveFileDialog = gcnew SaveFileDialog();
+				 
+				 if (saveFileDialog->ShowDialog() == System::Windows::Forms::DialogResult::OK)
+				 {
+					 StreamWriter^ sw = gcnew StreamWriter(saveFileDialog->FileName);
+					 sw->Write(Convert::ToString(analyseData.size()) + " ");
+					 for (int i=0;i<analyseData.size();i++)
+					 {
+						 sw->Write(Convert::ToString(analyseData[i]) + " ");
+					 }
+				 }
+				  
 
-				 buttonSaveResult->Enabled = true;
+				 //StaticClassFunctions::Analyse1(pathToBase);
+
+				 //buttonSaveResult->Enabled = true;
 			 }
 
 	private: System::Void buttonSaveResult_Click(System::Object^  sender, System::EventArgs^  e) 
