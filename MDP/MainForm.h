@@ -11,9 +11,6 @@ namespace MDP {
 	using namespace System::Data;
 	using namespace System::Drawing;
 
-	/// <summary>
-	/// Summary for Form1
-	/// </summary>
 	public ref class MainForm : public System::Windows::Forms::Form
 	{
 	public:
@@ -184,49 +181,52 @@ namespace MDP {
 		}
 #pragma endregion
 
-	private: System::Void ChangeEnabled()
-			 {
-				 buttonSaveAlgorithm->Enabled = true; 
-				 buttonLoadAlgorithm->Enabled = false;
-				 buttonCreateAlgorithm->Enabled = false;
-			 }
+	private: 
+		//	private: PSGraph ^container;
+		String ^pathToFile;
+		String ^pathToBase;
 
-	private: System::Void buttonCreateAlgorithm_Click(System::Object^  sender, System::EventArgs^  e) 
-			 {
-				 CreateMenuForm ^createMenuForm = gcnew CreateMenuForm();
-				 createMenuForm->ShowDialog();
+		System::Void ChangeEnabled()
+		{
+			buttonSaveAlgorithm->Enabled = true; 
+			buttonLoadAlgorithm->Enabled = false;
+			buttonCreateAlgorithm->Enabled = false;
+		}
 
-				 buttonLoadImage->Enabled = true;
-				 ChangeEnabled();	
-			 }
+		System::Void buttonCreateAlgorithm_Click(System::Object^  sender, System::EventArgs^  e) 
+		{
+			CreateMenuForm ^createMenuForm = gcnew CreateMenuForm();
+			createMenuForm->ShowDialog();
 
-//	private: PSGraph ^container;
+			buttonLoadImage->Enabled = true;
+			ChangeEnabled();	
+		}
 
-	private: System::Void buttonLoadAlgorithm_Click(System::Object^  sender, System::EventArgs^  e) 
-			 {
-				 OpenFileDialog ^openFileDialog = gcnew OpenFileDialog();
-				 openFileDialog->Title = "Выберите файл с алгоритмом";
-				 openFileDialog->Filter = "Algorithm Files|*.pst";
-				 
-				 if (openFileDialog->ShowDialog() == System::Windows::Forms::DialogResult::OK)
-				 {
-					 try
-					 {
-						 //cotainer = gcnew PSGraph(openFileDialog->FileName);
-						 ChangeEnabled();						 	 
-					 }
-					 catch(Exception ^exception)
-					 {
-						 MessageBox::Show("Произошла ошибка" + exception->ToString() + " в buttonLoadAlgorithm_Click =(");
-					 }	
-				 }
-				 else
-				 {
-					 MessageBox::Show("Вы не выбрали файл!");
-				 }	 
-			 }
+		System::Void buttonLoadAlgorithm_Click(System::Object^  sender, System::EventArgs^  e) 
+		{
+			OpenFileDialog ^openFileDialog = gcnew OpenFileDialog();
+			openFileDialog->Title = "Выберите файл с алгоритмом";
+			openFileDialog->Filter = "Algorithm Files|*.pst";
+				
+			if (openFileDialog->ShowDialog() == System::Windows::Forms::DialogResult::OK)
+			{
+				try
+				{
+					//cotainer = gcnew PSGraph(openFileDialog->FileName);
+					ChangeEnabled();						 	 
+				}
+				catch(Exception ^exception)
+				{
+					MessageBox::Show("Произошла ошибка" + exception->ToString() + " в buttonLoadAlgorithm_Click =(");
+				}
+			}
+			else
+			{
+				MessageBox::Show("Вы не выбрали файл!");
+			}
+		}
 
-	private: System::Void buttonSaveAlgorithm_Click(System::Object^  sender, System::EventArgs^  e) 
+		System::Void buttonSaveAlgorithm_Click(System::Object^  sender, System::EventArgs^  e) 
 			 {
 				 SaveFileDialog ^saveFileDialog = gcnew SaveFileDialog();
 				 saveFileDialog->Title = "Сохраните файл с алгоритмом";
@@ -249,91 +249,79 @@ namespace MDP {
 					 MessageBox::Show("Вы не сохранили файл!");
 				 }	
 			 }
-
-	private: String ^pathToFile;
-	private: String ^pathToBase;
-	private: System::Void buttonLoadImage_Click(System::Object^  sender, System::EventArgs^  e) 
-			 {
-				 OpenFileDialog ^openFileDialog = gcnew OpenFileDialog();
-				 openFileDialog->Title = "Выберите изображение";
-				 openFileDialog->Filter = "Image Files|*.bmp; *.jpg";
+	
+		System::Void buttonLoadImage_Click(System::Object^  sender, System::EventArgs^  e) 
+		{
+			OpenFileDialog ^openFileDialog = gcnew OpenFileDialog();
+			openFileDialog->Title = "Выберите изображение";
+			openFileDialog->Filter = "Image Files|*.bmp; *.jpg";
 				 
-				 if (openFileDialog->ShowDialog() == System::Windows::Forms::DialogResult::OK)
-				 {
-					 try
-					 {
-						 pathToFile = openFileDialog->FileName;
-						 pictureBox1->Image = StaticClassFunctions::OpenImage(pathToFile);	
-					 }
-					 catch(Exception^ exception)
-					 {
-						 MessageBox::Show("Произошла ошибка" + exception->ToString() + " в buttonLoadImage_Click =(");
-					 }
-				 }
+			if (openFileDialog->ShowDialog() == System::Windows::Forms::DialogResult::OK)
+			{
+				try
+				{
+					pathToFile = openFileDialog->FileName;
+					pictureBox1->Image = StaticClassFunctions::OpenImage(pathToFile);	
+				}
+				catch(Exception^ exception)
+				{
+					MessageBox::Show("Произошла ошибка" + exception->ToString() + " в buttonLoadImage_Click =(");
+				}
+			}
 
-				 FolderBrowserDialog ^folderBrowserDialog = gcnew FolderBrowserDialog();
-				 if (folderBrowserDialog->ShowDialog() == System::Windows::Forms::DialogResult::OK )
-				 {
-					 try
-					 {
-						 pathToBase = folderBrowserDialog->SelectedPath;
-					 }
-					 catch(Exception^ exception)
-					 {
-						 MessageBox::Show("Произошла ошибка" + exception->ToString() + " в buttonLoadImage_Click =(");
-					 }
-				 }
+			FolderBrowserDialog ^folderBrowserDialog = gcnew FolderBrowserDialog();
+			if (folderBrowserDialog->ShowDialog() == System::Windows::Forms::DialogResult::OK )
+			{
+				try
+				{
+					pathToBase = folderBrowserDialog->SelectedPath;
+				}
+				catch(Exception^ exception)
+				{
+					MessageBox::Show("Произошла ошибка" + exception->ToString() + " в buttonLoadImage_Click =(");
+				}
+			}
 
-				 if (pathToFile != nullptr && pathToBase != nullptr)
-				 {
-					 buttonAnalyseImage->Enabled = true;
-				 }
-				 else
-				 {
-					 if (pathToFile == nullptr) 
-					 {
-						 MessageBox::Show("Вы не выбрали изображение!");
-					 }
-					 else
-					 {
-						 MessageBox::Show("Вы не выбрали базу!");
-					 }
-				 }
-			 }
+			if (pathToFile != nullptr && pathToBase != nullptr)
+			{
+				buttonAnalyseImage->Enabled = true;
+			}
+			else
+			{
+				if (pathToFile == nullptr) 
+				{
+					MessageBox::Show("Вы не выбрали изображение!");
+				}
+				else
+				{
+					MessageBox::Show("Вы не выбрали базу!");
+				}
+			}
+		}
 
-	private: System::Void buttonAnalyseImage_Click(System::Object^  sender, System::EventArgs^  e) 
-			 {
-				 //MessageBox::Show("Здесь будет функция обработки изображения");
-				 Image ^img = pictureBox1->Image;
-				 Bitmap ^bmp = dynamic_cast<Bitmap^>(img);
+		System::Void buttonAnalyseImage_Click(System::Object^  sender, System::EventArgs^  e) 
+		{
+			Bitmap ^bmp = dynamic_cast<Bitmap^>(pictureBox1->Image);
 
-				 vector<int> analyseData; 
-				 analyseData = StaticClassFunctions::Prepare(bmp);
-				 pictureBox1->Image = StaticClassFunctions::Prepare1(bmp);;
+			vector<int> analyseData = StaticClassFunctions::Prepare(bmp);
 
-				 SaveFileDialog ^saveFileDialog = gcnew SaveFileDialog();
-				 
-				 if (saveFileDialog->ShowDialog() == System::Windows::Forms::DialogResult::OK)
-				 {
-					 StreamWriter^ sw = gcnew StreamWriter(saveFileDialog->FileName);
-					 sw->Write(Convert::ToString(analyseData.size()) + " ");
-					 for (int i=0;i<analyseData.size();i++)
-					 {
-						 sw->Write(Convert::ToString(analyseData[i]) + " ");
-					 }
-				 }
-				  
+			report = StaticClassFunctions::Analyse(analyseData, pathToBase);
+			
+			if (report == "")
+			{
+				MessageBox::Show("Классификация не была завершена успешно. Сохранение отчета возможно лишь в качестве создания нового класса");
+			}
+			//buttonSaveResult->Enabled = true;
+			SaveResultForm ^saveResultForm = gcnew SaveResultForm(pathToBase, analyseData, report);
+			saveResultForm->ShowDialog();
+		}
 
-				 //StaticClassFunctions::Analyse1(pathToBase);
-
-				 //buttonSaveResult->Enabled = true;
-			 }
-
-	private: System::Void buttonSaveResult_Click(System::Object^  sender, System::EventArgs^  e) 
-			 {
-				 SaveResultForm ^saveResultForm = gcnew SaveResultForm();
-				 saveResultForm->ShowDialog();
-			 }
+		vector<int> *analyseData;
+		String ^report;
+		System::Void buttonSaveResult_Click(System::Object^  sender, System::EventArgs^  e) 
+		{
+			SaveResultForm ^saveResultForm = gcnew SaveResultForm(pathToBase, *analyseData, report);
+			saveResultForm->ShowDialog();
+		}
 };
 }
-

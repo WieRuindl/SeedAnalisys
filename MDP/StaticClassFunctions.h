@@ -12,7 +12,18 @@ namespace MDP {
 
 	static ref class StaticClassFunctions
 	{
-	public: 
+	public:
+
+		static Bitmap^ OpenImage(String ^fileName)
+		{
+			System::IO::FileStream ^fileStream = gcnew System::IO::FileStream(fileName, System::IO::FileMode::Open);
+			System::Drawing::Image ^img = System::Drawing::Image::FromStream(fileStream);
+			fileStream->Close();
+
+			Bitmap ^bmp = dynamic_cast<Bitmap^>(img);
+			return gcnew Bitmap(bmp);
+		}
+		
 		static vector<int> Prepare(Bitmap ^image)
 		{
 			vector<int> vector(256*3);
@@ -41,78 +52,50 @@ namespace MDP {
 					}
 				}
 			}
-
 			return vector;
 		}
 
-		static Bitmap^ OpenImage(String ^fileName)
-		{
-			System::IO::FileStream ^fileStream = gcnew System::IO::FileStream(fileName, System::IO::FileMode::Open);
-			System::Drawing::Image ^img = System::Drawing::Image::FromStream(fileStream);
-			fileStream->Close();
-
-			Bitmap ^bmp = dynamic_cast<Bitmap^>(img);
-			return gcnew Bitmap(bmp);
-		}
-
-		static Bitmap^ Prepare1(Bitmap ^image)
-		{
-			Bitmap ^bmp = dynamic_cast<Bitmap^>(image);
-
-			for (int j = 0; j < image->Height; j++)
-			{
-				for (int i = 0; i < image->Width; i++)
-				{
-					Color ^color = image->GetPixel(i, j);
-					
-					int r = color->R;
-					int g = color->G;
-					int b = color->B;
-					double mid = 0.299 * (double)r + 0.587 * (double)g + 0.114 * (double)b;
-
-					double distance = Math::Pow(r - mid, 2) + Math::Pow(g - mid, 2) + Math::Pow(b - mid, 2);
-					int minDistance = 1600;
-
-					if (distance <= minDistance)
-					{
-						bmp->SetPixel(i, j, Color::Black);
-					}
-				}
-			}
-
-			return gcnew Bitmap(bmp);
-		}
-
-		static void Analyse(vector<int>, String ^pathToBase)
-		{
-			System::IO::DirectoryInfo ^root = gcnew System::IO::DirectoryInfo(pathToBase);
-
-			array<DirectoryInfo^> ^subDirs = root->GetDirectories();
-
-			for (int i = 0; i < subDirs->Length; i++)
-			{
-				//array<FileInfo^> ^files = subDirs[i]->GetFiles();
-				Console::WriteLine(subDirs[0]->Name);
-			}
-		}
-
-		static String^ Analyse1(String ^pathToBase)
+		static String^ Analyse(vector<int> data, String ^pathToBase)
 		{
 			try
 			{
 				String ^result = "";
 
-				System::IO::DirectoryInfo ^root = gcnew System::IO::DirectoryInfo(pathToBase);
-			
+				System::IO::DirectoryInfo ^root = gcnew System::IO::DirectoryInfo(pathToBase);		
 				array<DirectoryInfo^> ^subDirs = root->GetDirectories();
+
+				if (subDirs->Length == 0)
+				{
+					MessageBox::Show("В выбранной базе еще нет созданных классов семян");
+					return "";
+				}
 
 				for (int i = 0; i < subDirs->Length; i++)
 				{
-					FileInfo ^files = subDirs[i]->GetFiles()[0];
+					array<FileInfo^> ^files = subDirs[i]->GetFiles();
 
-					result += subDirs[i]->ToString();
+					if (files->Length == 0)
+					{
+						MessageBox::Show("Произошла ошибка. В классе " + subDirs[i]->Name + " в базе отсутствуют сохраненные семена. Программа продолжит работу, но этот класс не будет доступен");
+						continue;
+					}
+
+					FileInfo ^file = files[0];
+
+					result += Convert::ToString(subDirs[i]) + "|";
+
+					StreamReader ^reader = File::OpenText(file->FullName);
+					String^ str = reader->ReadLine();
+					double distance = 0;
+					array<String^> ^elements = str->Split('|');
+
+					for (int k = 0; k < data.size(); k++)
+					{
+						distance += Math::Abs(Convert::ToInt32(elements[k])-data[k]);
+					}
+					result += Convert::ToString(distance) + ";";
 				}
-
+				MessageBox::Show("Классификация завершена");
 				return result;
 			}
 			catch(Exception ^exception)
