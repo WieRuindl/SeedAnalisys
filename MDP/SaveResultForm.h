@@ -20,23 +20,20 @@ namespace MDP {
 			InitializeComponent();
 		}
 
-		SaveResultForm(String ^_pathToBase, vector<int> _analyseData, String ^_report)
+		SaveResultForm(String ^_pathToBase, String ^_data, String ^_report)
 		{
 			InitializeComponent();
-
-			newClass = "";
-			for (int i=0;i<_analyseData.size();i++)
-			{
-				newClass += Convert::ToString(_analyseData[i]) + "|";
-			}
-
+			
+			data = _data;
 			report = _report;
 			pathToBase = _pathToBase;
 
 			array<String^> ^options = report->Split(';');
-			for (int i = 0; i < options->Length; i++)
+			for (int i = 0; i < options->Length - 1; i++)
 			{
-				listBoxClassNames->Items->Add(options[i]);
+				String ^option = "";
+				option += options[i]->Split('|')[0] + " | " + options[i]->Split('|')[1];
+				listBoxClassNames->Items->Add(option);
 			}
 		}
 
@@ -167,8 +164,8 @@ namespace MDP {
 
 	private:
 		String ^pathToBase;
-		String ^newClass;
 		String ^report;
+		String ^data;
 
 		System::Void buttonCreateNewClass_Click(System::Object^  sender, System::EventArgs^  e) 
 		{
@@ -182,25 +179,7 @@ namespace MDP {
 				else
 				{
 					System::IO::Directory::CreateDirectory(path);
-
-					SaveFileDialog ^saveFileDialog = gcnew SaveFileDialog();
-					saveFileDialog->InitialDirectory = path;
-					saveFileDialog->Filter = "Текстовые файлы|*.txt";
-
-					if (saveFileDialog->ShowDialog() == System::Windows::Forms::DialogResult::OK)
-					{
-						String ^pathToFile = saveFileDialog->FileName;
-						StreamWriter^ sw = gcnew StreamWriter(pathToFile);
-
-						sw->Write(newClass);
-						sw->Close();
-
-						MessageBox::Show("Файл сохранен успешно!");
-					}
-					else
-					{
-						MessageBox::Show("Вы не сохранили файл");
-					}
+					SaveFile(path);
 				}
 			}
 			else
@@ -211,7 +190,39 @@ namespace MDP {
 		
 		System::Void buttonSaveInClass_Click(System::Object^  sender, System::EventArgs^  e) 
 		{
-		 
+			if (listBoxClassNames->SelectedItem != nullptr)
+			{
+				String ^path = pathToBase + "\\" + listBoxClassNames->SelectedItem->ToString()->Split()[0];
+				SaveFile(path);
+			}
+			else
+			{
+				MessageBox::Show("Вы не выбрали класс");
+			}
+		}
+
+		System::String^ SaveFile(String ^path)
+		{
+			SaveFileDialog ^saveFileDialog = gcnew SaveFileDialog();
+			saveFileDialog->InitialDirectory = path;
+			saveFileDialog->Filter = "Текстовые файлы|*.txt";
+
+			if (saveFileDialog->ShowDialog() == System::Windows::Forms::DialogResult::OK)
+			{
+				String ^pathToFile = saveFileDialog->FileName;
+				StreamWriter^ writer = gcnew StreamWriter(pathToFile);
+
+				writer->Write(data);
+				writer->Close();
+
+				return gcnew String("Файл сохранен успешно!");
+
+				this->Close();
+			}
+			else
+			{
+				return gcnew String("Вы не сохранили файл!");
+			}
 		}
 };
 }

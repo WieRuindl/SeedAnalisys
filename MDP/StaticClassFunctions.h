@@ -24,7 +24,7 @@ namespace MDP {
 			return gcnew Bitmap(bmp);
 		}
 		
-		static vector<int> Prepare(Bitmap ^image)
+		static String^ Prepare(Bitmap ^image)
 		{
 			vector<int> vector(256*3);
 
@@ -52,55 +52,65 @@ namespace MDP {
 					}
 				}
 			}
-			return vector;
+
+			String^ data = "";
+			for (unsigned int i = 0; i < vector.size(); i++)
+			{
+				data += Convert::ToString(vector[i]) + "|";
+			}
+			return data;
 		}
 
-		static String^ Analyse(vector<int> data, String ^pathToBase)
+		static String^ Analyse(String ^data, String ^pathToBase)
 		{
 			try
 			{
-				String ^result = "";
+				String ^report = "";
 
 				System::IO::DirectoryInfo ^root = gcnew System::IO::DirectoryInfo(pathToBase);		
-				array<DirectoryInfo^> ^subDirs = root->GetDirectories();
+				array<DirectoryInfo^> ^directories = root->GetDirectories();
 
-				if (subDirs->Length == 0)
+				if (directories->Length == 0)
 				{
 					MessageBox::Show("В выбранной базе еще нет созданных классов семян");
+					MessageBox::Show("Классификация не была завершена успешно. Сохранение отчета возможно лишь в качестве создания нового класса");			
 					return "";
 				}
 
-				for (int i = 0; i < subDirs->Length; i++)
+				for (int i = 0; i < directories->Length; i++)
 				{
-					array<FileInfo^> ^files = subDirs[i]->GetFiles();
-
+					array<FileInfo^> ^files = directories[i]->GetFiles();
 					if (files->Length == 0)
 					{
-						MessageBox::Show("Произошла ошибка. В классе " + subDirs[i]->Name + " в базе отсутствуют сохраненные семена. Программа продолжит работу, но этот класс не будет доступен");
+						MessageBox::Show("Произошла ошибка. В классе " + directories[i]->Name + " в базе отсутствуют сохраненные семена. Программа продолжит работу, но этот класс не будет доступен для работы. Проверьте базу.");
 						continue;
 					}
-
 					FileInfo ^file = files[0];
 
-					result += Convert::ToString(subDirs[i]) + "|";
-
 					StreamReader ^reader = File::OpenText(file->FullName);
-					String^ str = reader->ReadLine();
-					double distance = 0;
-					array<String^> ^elements = str->Split('|');
+					String^ text = reader->ReadLine();	
 
-					for (int k = 0; k < data.size(); k++)
+					array<String^> ^baseElements = text->Split('|');
+					array<String^> ^dataElements = data->Split('|');
+
+					double distance = 0;
+					for (int k = 0; k < dataElements->Length - 1; k++)
 					{
-						distance += Math::Abs(Convert::ToInt32(elements[k])-data[k]);
+						distance += Math::Abs(Convert::ToInt32(baseElements[k])-Convert::ToInt32(dataElements[k]));
 					}
-					result += Convert::ToString(distance) + ";";
+
+					report += Convert::ToString(directories[i]) + "|";
+					report += Convert::ToString(distance) + ";";
 				}
+
 				MessageBox::Show("Классификация завершена");
-				return result;
+
+				return report;
 			}
 			catch(Exception ^exception)
 			{
-				MessageBox::Show("Ошибка " + exception->ToString() + ". Скорее всего вы выбрали неправильную папку в качестве базы");
+				MessageBox::Show("Произошла ошибка во время анализа изображения. Скорее всего вы выбрали неверную папку в качестве базы.");
+				MessageBox::Show("Классификация не была завершена успешно. Сохранение отчета возможно лишь в качестве создания нового класса");
 				return "";
 			}
 		}

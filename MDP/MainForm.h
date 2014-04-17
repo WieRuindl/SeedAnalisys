@@ -17,6 +17,8 @@ namespace MDP {
 		MainForm(void)
 		{
 			InitializeComponent();
+
+			initialDirectory = "C:\\";
 		}
 
 	protected:
@@ -42,6 +44,7 @@ namespace MDP {
 	private: System::Windows::Forms::Button^  buttonSaveResult;
 
 	private: System::Windows::Forms::PictureBox^  pictureBox1;
+	private: System::Windows::Forms::Button^  buttonLoadBase;
 
 	private:
 		System::ComponentModel::Container ^components;
@@ -59,6 +62,7 @@ namespace MDP {
 			this->buttonCreateAlgorithm = (gcnew System::Windows::Forms::Button());
 			this->buttonSaveResult = (gcnew System::Windows::Forms::Button());
 			this->pictureBox1 = (gcnew System::Windows::Forms::PictureBox());
+			this->buttonLoadBase = (gcnew System::Windows::Forms::Button());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->pictureBox1))->BeginInit();
 			this->SuspendLayout();
 			// 
@@ -122,7 +126,7 @@ namespace MDP {
 			this->buttonLoadImage->Image = (cli::safe_cast<System::Drawing::Image^  >(resources->GetObject(L"buttonLoadImage.Image")));
 			this->buttonLoadImage->Location = System::Drawing::Point(15, 227);
 			this->buttonLoadImage->Name = L"buttonLoadImage";
-			this->buttonLoadImage->Size = System::Drawing::Size(150, 72);
+			this->buttonLoadImage->Size = System::Drawing::Size(72, 72);
 			this->buttonLoadImage->TabIndex = 0;
 			this->buttonLoadImage->UseVisualStyleBackColor = true;
 			this->buttonLoadImage->Click += gcnew System::EventHandler(this, &MainForm::buttonLoadImage_Click);
@@ -150,13 +154,24 @@ namespace MDP {
 			// 
 			// pictureBox1
 			// 
-			this->pictureBox1->BackColor = System::Drawing::SystemColors::ControlLightLight;
+			this->pictureBox1->BackColor = System::Drawing::SystemColors::Info;
 			this->pictureBox1->Location = System::Drawing::Point(171, 227);
 			this->pictureBox1->Name = L"pictureBox1";
 			this->pictureBox1->Size = System::Drawing::Size(150, 228);
 			this->pictureBox1->SizeMode = System::Windows::Forms::PictureBoxSizeMode::Zoom;
 			this->pictureBox1->TabIndex = 2;
 			this->pictureBox1->TabStop = false;
+			// 
+			// buttonLoadBase
+			// 
+			this->buttonLoadBase->Enabled = false;
+			this->buttonLoadBase->Image = (cli::safe_cast<System::Drawing::Image^  >(resources->GetObject(L"buttonLoadBase.Image")));
+			this->buttonLoadBase->Location = System::Drawing::Point(93, 227);
+			this->buttonLoadBase->Name = L"buttonLoadBase";
+			this->buttonLoadBase->Size = System::Drawing::Size(72, 72);
+			this->buttonLoadBase->TabIndex = 0;
+			this->buttonLoadBase->UseVisualStyleBackColor = true;
+			this->buttonLoadBase->Click += gcnew System::EventHandler(this, &MainForm::buttonLoadBase_Click);
 			// 
 			// MainForm
 			// 
@@ -171,6 +186,7 @@ namespace MDP {
 			this->Controls->Add(this->buttonLoadAlgorithm);
 			this->Controls->Add(this->buttonSaveResult);
 			this->Controls->Add(this->buttonCreateAlgorithm);
+			this->Controls->Add(this->buttonLoadBase);
 			this->Controls->Add(this->buttonLoadImage);
 			this->Controls->Add(this->buttonAnalyseImage);
 			this->Name = L"MainForm";
@@ -183,14 +199,19 @@ namespace MDP {
 
 	private: 
 		//	private: PSGraph ^container;
+		String ^initialDirectory;
 		String ^pathToFile;
 		String ^pathToBase;
+		String ^report;
+		String ^data;
 
 		System::Void ChangeEnabled()
 		{
+			buttonLoadBase->Enabled = true;
+			buttonLoadImage->Enabled = true;
 			buttonSaveAlgorithm->Enabled = true; 
 			buttonLoadAlgorithm->Enabled = false;
-			buttonCreateAlgorithm->Enabled = false;
+			buttonCreateAlgorithm->Enabled = false;	
 		}
 
 		System::Void buttonCreateAlgorithm_Click(System::Object^  sender, System::EventArgs^  e) 
@@ -198,7 +219,6 @@ namespace MDP {
 			CreateMenuForm ^createMenuForm = gcnew CreateMenuForm();
 			createMenuForm->ShowDialog();
 
-			buttonLoadImage->Enabled = true;
 			ChangeEnabled();	
 		}
 
@@ -237,7 +257,7 @@ namespace MDP {
 					 try
 					 {
 						 //cotainer->SaveToFile(openFileDialog->FileName);	
-						 MessageBox::Show("Здесь будет сохранение файла!");
+						 MessageBox::Show("Алгоритм успешно сохранен!");
 					 }
 					 catch(Exception^ exception)
 					 {
@@ -255,73 +275,74 @@ namespace MDP {
 			OpenFileDialog ^openFileDialog = gcnew OpenFileDialog();
 			openFileDialog->Title = "Выберите изображение";
 			openFileDialog->Filter = "Image Files|*.bmp; *.jpg";
-				 
+			openFileDialog->InitialDirectory = initialDirectory;
+
 			if (openFileDialog->ShowDialog() == System::Windows::Forms::DialogResult::OK)
 			{
 				try
 				{
 					pathToFile = openFileDialog->FileName;
-					pictureBox1->Image = StaticClassFunctions::OpenImage(pathToFile);	
+					pictureBox1->Image = StaticClassFunctions::OpenImage(pathToFile);
+					
+					initialDirectory = Directory::GetParent(openFileDialog->FileName)->FullName;
+
+					if (pathToFile != nullptr && pathToBase != nullptr)
+					{
+						buttonAnalyseImage->Enabled = true;
+					}
 				}
 				catch(Exception^ exception)
 				{
 					MessageBox::Show("Произошла ошибка" + exception->ToString() + " в buttonLoadImage_Click =(");
 				}
-			}
+			}			
+		}
 
+		System::Void buttonLoadBase_Click(System::Object^  sender, System::EventArgs^  e) 
+		{
 			FolderBrowserDialog ^folderBrowserDialog = gcnew FolderBrowserDialog();
 			if (folderBrowserDialog->ShowDialog() == System::Windows::Forms::DialogResult::OK )
 			{
 				try
 				{
 					pathToBase = folderBrowserDialog->SelectedPath;
+
+					MessageBox::Show("База успешно загружена!");
+
+					if (pathToFile != nullptr && pathToBase != nullptr)
+					{
+						buttonAnalyseImage->Enabled = true;
+					}
 				}
 				catch(Exception^ exception)
 				{
 					MessageBox::Show("Произошла ошибка" + exception->ToString() + " в buttonLoadImage_Click =(");
 				}
 			}
-
-			if (pathToFile != nullptr && pathToBase != nullptr)
-			{
-				buttonAnalyseImage->Enabled = true;
-			}
 			else
 			{
-				if (pathToFile == nullptr) 
-				{
-					MessageBox::Show("Вы не выбрали изображение!");
-				}
-				else
-				{
-					MessageBox::Show("Вы не выбрали базу!");
-				}
-			}
+				MessageBox::Show("Вы не выбрали Базу!");
+			}	
 		}
 
 		System::Void buttonAnalyseImage_Click(System::Object^  sender, System::EventArgs^  e) 
 		{
 			Bitmap ^bmp = dynamic_cast<Bitmap^>(pictureBox1->Image);
 
-			vector<int> analyseData = StaticClassFunctions::Prepare(bmp);
+			data = StaticClassFunctions::Prepare(bmp);
 
-			report = StaticClassFunctions::Analyse(analyseData, pathToBase);
+			report = StaticClassFunctions::Analyse(data, pathToBase);
 			
-			if (report == "")
-			{
-				MessageBox::Show("Классификация не была завершена успешно. Сохранение отчета возможно лишь в качестве создания нового класса");
-			}
-			//buttonSaveResult->Enabled = true;
-			SaveResultForm ^saveResultForm = gcnew SaveResultForm(pathToBase, analyseData, report);
-			saveResultForm->ShowDialog();
+			buttonSaveResult->Enabled = true;
 		}
 
-		vector<int> *analyseData;
-		String ^report;
 		System::Void buttonSaveResult_Click(System::Object^  sender, System::EventArgs^  e) 
 		{
-			SaveResultForm ^saveResultForm = gcnew SaveResultForm(pathToBase, *analyseData, report);
+			SaveResultForm ^saveResultForm = gcnew SaveResultForm(pathToBase, data, report);
 			saveResultForm->ShowDialog();
-		}
+			
+			buttonAnalyseImage->Enabled = false;
+			buttonSaveResult->Enabled = false;
+		}	
 };
 }
