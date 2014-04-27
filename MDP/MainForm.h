@@ -2,6 +2,7 @@
 #include "CreateMenuForm.h"
 #include "SaveResultForm.h"
 #include "StaticClassFunctions.h"
+#include "UnitTests.h"
 
 namespace MDP {
 	using namespace System;
@@ -19,6 +20,15 @@ namespace MDP {
 			InitializeComponent();
 
 			initialDirectory = "C:\\";
+			tip = gcnew ToolTip();
+			tip->SetToolTip(buttonCreateAlgorithm, "Создание нового алгоритма обработки изображения");
+			tip->SetToolTip(buttonLoadAlgorithm, "Загрузка существующего алгоритма обработки изображения");
+			tip->SetToolTip(buttonLoadImage, "Выберите изображение для анализа");
+			tip->SetToolTip(buttonLoadBase, "Выберите базу изображений для сравнения");
+			tip->SetToolTip(buttonAnalyseImage, "Провести анализ изображения");
+			tip->SetToolTip(buttonSaveResult, "Сохраните результат анализа");
+
+			//MessageBox::Show(UnitTests::TestPrepare());
 		}
 
 	protected:
@@ -35,7 +45,7 @@ namespace MDP {
 	protected: 
 	private: System::Windows::Forms::Label^  label1;
 	private: System::Windows::Forms::Button^  buttonLoadAlgorithm;
-	private: System::Windows::Forms::Button^  buttonSaveAlgorithm;
+
 
 	private: System::Windows::Forms::Label^  label2;
 	private: System::Windows::Forms::Button^  buttonLoadImage;
@@ -56,7 +66,6 @@ namespace MDP {
 			this->buttonAnalyseImage = (gcnew System::Windows::Forms::Button());
 			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->buttonLoadAlgorithm = (gcnew System::Windows::Forms::Button());
-			this->buttonSaveAlgorithm = (gcnew System::Windows::Forms::Button());
 			this->label2 = (gcnew System::Windows::Forms::Label());
 			this->buttonLoadImage = (gcnew System::Windows::Forms::Button());
 			this->buttonCreateAlgorithm = (gcnew System::Windows::Forms::Button());
@@ -91,30 +100,19 @@ namespace MDP {
 			// buttonLoadAlgorithm
 			// 
 			this->buttonLoadAlgorithm->Image = (cli::safe_cast<System::Drawing::Image^  >(resources->GetObject(L"buttonLoadAlgorithm.Image")));
-			this->buttonLoadAlgorithm->Location = System::Drawing::Point(171, 28);
+			this->buttonLoadAlgorithm->Location = System::Drawing::Point(171, 41);
 			this->buttonLoadAlgorithm->Name = L"buttonLoadAlgorithm";
 			this->buttonLoadAlgorithm->Size = System::Drawing::Size(72, 72);
 			this->buttonLoadAlgorithm->TabIndex = 0;
 			this->buttonLoadAlgorithm->UseVisualStyleBackColor = true;
 			this->buttonLoadAlgorithm->Click += gcnew System::EventHandler(this, &MainForm::buttonLoadAlgorithm_Click);
 			// 
-			// buttonSaveAlgorithm
-			// 
-			this->buttonSaveAlgorithm->Enabled = false;
-			this->buttonSaveAlgorithm->Image = (cli::safe_cast<System::Drawing::Image^  >(resources->GetObject(L"buttonSaveAlgorithm.Image")));
-			this->buttonSaveAlgorithm->Location = System::Drawing::Point(93, 116);
-			this->buttonSaveAlgorithm->Name = L"buttonSaveAlgorithm";
-			this->buttonSaveAlgorithm->Size = System::Drawing::Size(150, 72);
-			this->buttonSaveAlgorithm->TabIndex = 0;
-			this->buttonSaveAlgorithm->UseVisualStyleBackColor = true;
-			this->buttonSaveAlgorithm->Click += gcnew System::EventHandler(this, &MainForm::buttonSaveAlgorithm_Click);
-			// 
 			// label2
 			// 
 			this->label2->AutoSize = true;
 			this->label2->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 9.75F, System::Drawing::FontStyle::Bold, System::Drawing::GraphicsUnit::Point, 
 				static_cast<System::Byte>(204)));
-			this->label2->Location = System::Drawing::Point(12, 208);
+			this->label2->Location = System::Drawing::Point(12, 130);
 			this->label2->Name = L"label2";
 			this->label2->Size = System::Drawing::Size(211, 16);
 			this->label2->TabIndex = 1;
@@ -126,7 +124,7 @@ namespace MDP {
 			this->buttonLoadImage->Image = (cli::safe_cast<System::Drawing::Image^  >(resources->GetObject(L"buttonLoadImage.Image")));
 			this->buttonLoadImage->Location = System::Drawing::Point(15, 227);
 			this->buttonLoadImage->Name = L"buttonLoadImage";
-			this->buttonLoadImage->Size = System::Drawing::Size(72, 72);
+			this->buttonLoadImage->Size = System::Drawing::Size(150, 72);
 			this->buttonLoadImage->TabIndex = 0;
 			this->buttonLoadImage->UseVisualStyleBackColor = true;
 			this->buttonLoadImage->Click += gcnew System::EventHandler(this, &MainForm::buttonLoadImage_Click);
@@ -134,7 +132,7 @@ namespace MDP {
 			// buttonCreateAlgorithm
 			// 
 			this->buttonCreateAlgorithm->Image = (cli::safe_cast<System::Drawing::Image^  >(resources->GetObject(L"buttonCreateAlgorithm.Image")));
-			this->buttonCreateAlgorithm->Location = System::Drawing::Point(93, 28);
+			this->buttonCreateAlgorithm->Location = System::Drawing::Point(93, 41);
 			this->buttonCreateAlgorithm->Name = L"buttonCreateAlgorithm";
 			this->buttonCreateAlgorithm->Size = System::Drawing::Size(72, 72);
 			this->buttonCreateAlgorithm->TabIndex = 0;
@@ -166,9 +164,9 @@ namespace MDP {
 			// 
 			this->buttonLoadBase->Enabled = false;
 			this->buttonLoadBase->Image = (cli::safe_cast<System::Drawing::Image^  >(resources->GetObject(L"buttonLoadBase.Image")));
-			this->buttonLoadBase->Location = System::Drawing::Point(93, 227);
+			this->buttonLoadBase->Location = System::Drawing::Point(15, 149);
 			this->buttonLoadBase->Name = L"buttonLoadBase";
-			this->buttonLoadBase->Size = System::Drawing::Size(72, 72);
+			this->buttonLoadBase->Size = System::Drawing::Size(150, 72);
 			this->buttonLoadBase->TabIndex = 0;
 			this->buttonLoadBase->UseVisualStyleBackColor = true;
 			this->buttonLoadBase->Click += gcnew System::EventHandler(this, &MainForm::buttonLoadBase_Click);
@@ -182,13 +180,13 @@ namespace MDP {
 			this->Controls->Add(this->pictureBox1);
 			this->Controls->Add(this->label2);
 			this->Controls->Add(this->label1);
-			this->Controls->Add(this->buttonSaveAlgorithm);
 			this->Controls->Add(this->buttonLoadAlgorithm);
 			this->Controls->Add(this->buttonSaveResult);
 			this->Controls->Add(this->buttonCreateAlgorithm);
 			this->Controls->Add(this->buttonLoadBase);
 			this->Controls->Add(this->buttonLoadImage);
 			this->Controls->Add(this->buttonAnalyseImage);
+			this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::FixedToolWindow;
 			this->Name = L"MainForm";
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^  >(this->pictureBox1))->EndInit();
 			this->ResumeLayout(false);
@@ -198,6 +196,9 @@ namespace MDP {
 #pragma endregion
 
 	private: 
+
+		ToolTip ^tip;
+
 		//	private: PSGraph ^container;
 		String ^initialDirectory;
 		String ^pathToFile;
@@ -208,8 +209,7 @@ namespace MDP {
 		System::Void ChangeEnabled()
 		{
 			buttonLoadBase->Enabled = true;
-			buttonLoadImage->Enabled = true;
-			buttonSaveAlgorithm->Enabled = true; 
+			//buttonLoadImage->Enabled = true;
 			buttonLoadAlgorithm->Enabled = false;
 			buttonCreateAlgorithm->Enabled = false;	
 		}
@@ -286,10 +286,7 @@ namespace MDP {
 					
 					initialDirectory = Directory::GetParent(openFileDialog->FileName)->FullName;
 
-					if (pathToFile != nullptr && pathToBase != nullptr)
-					{
-						buttonAnalyseImage->Enabled = true;
-					}
+					buttonAnalyseImage->Enabled = true;
 				}
 				catch(Exception^ exception)
 				{
@@ -309,10 +306,8 @@ namespace MDP {
 
 					MessageBox::Show("База успешно загружена!");
 
-					if (pathToFile != nullptr && pathToBase != nullptr)
-					{
-						buttonAnalyseImage->Enabled = true;
-					}
+					buttonLoadBase->Enabled = false;
+					buttonLoadImage->Enabled = true;
 				}
 				catch(Exception^ exception)
 				{

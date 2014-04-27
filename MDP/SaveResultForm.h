@@ -1,8 +1,6 @@
 #pragma once
-#include <vector>
 
 namespace MDP {
-
 	using namespace System;
 	using namespace System::ComponentModel;
 	using namespace System::Collections;
@@ -29,10 +27,12 @@ namespace MDP {
 			pathToBase = _pathToBase;
 
 			array<String^> ^options = report->Split(';');
+			
 			for (int i = 0; i < options->Length - 1; i++)
 			{
 				String ^option = "";
 				option += options[i]->Split('|')[0] + " | " + options[i]->Split('|')[1];
+				
 				listBoxClassNames->Items->Add(option);
 			}
 		}
@@ -180,6 +180,7 @@ namespace MDP {
 				{
 					System::IO::Directory::CreateDirectory(path);
 					SaveFile(path);
+					this->Close();
 				}
 			}
 			else
@@ -194,6 +195,7 @@ namespace MDP {
 			{
 				String ^path = pathToBase + "\\" + listBoxClassNames->SelectedItem->ToString()->Split()[0];
 				SaveFile(path);
+				this->Close();
 			}
 			else
 			{
@@ -216,8 +218,6 @@ namespace MDP {
 				writer->Close();
 
 				return gcnew String("Файл сохранен успешно!");
-
-				this->Close();
 			}
 			else
 			{

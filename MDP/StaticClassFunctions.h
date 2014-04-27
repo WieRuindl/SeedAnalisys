@@ -1,4 +1,4 @@
-#include <vector>
+#pragma once
 
 namespace MDP {
 	using namespace System;
@@ -7,7 +7,6 @@ namespace MDP {
 	using namespace System::Windows::Forms;
 	using namespace System::Data;
 	using namespace System::Drawing;
-	using namespace std;
 	using namespace System::IO;
 
 	static ref class StaticClassFunctions
@@ -26,18 +25,25 @@ namespace MDP {
 		
 		static String^ Prepare(Bitmap ^image)
 		{
-			vector<int> vector(256*3);
+			const int size = 768; //256*3
+			int *gisto = new int[size]; 
+
+			for (int i = 0; i < size; i++)
+			{
+				gisto[i] = 0;
+			}
 
 			for (int j = 0; j < image->Height; j++)
 			{
 				for (int i = 0; i < image->Width; i++)
 				{
 					Color ^color = image->GetPixel(i, j);
-					
-					int r = color->R;
-					int g = color->G;
-					int b = color->B;
-					double mid = 0.299 * (double)r + 0.587 * (double)g + 0.114 * (double)b;
+					double r = color->R;
+					double g = color->G;
+					double b = color->B;
+					delete(color);
+
+					double mid = 0.299 * r + 0.587 * g + 0.114 * b;
 
 					double distance = Math::Pow(r - mid, 2) + Math::Pow(g - mid, 2) + Math::Pow(b - mid, 2);
 					
@@ -46,19 +52,20 @@ namespace MDP {
 
 					if (distance > minDistance)
 					{
-						vector[      color->R]++;
-						vector[256 + color->G]++;
-						vector[512 + color->B]++;
+						gisto[      color->R]++;
+						gisto[256 + color->G]++;
+						gisto[512 + color->B]++;
 					}
 				}
 			}
 
 			String^ data = "";
-			for (unsigned int i = 0; i < vector.size(); i++)
+			for (unsigned int i = 0; i < size; i++)
 			{
-				data += Convert::ToString(vector[i]) + "|";
+				data += Convert::ToString(gisto[i]) + "|";
 			}
-			return data;
+			delete(gisto);
+			return gcnew String(data);
 		}
 
 		static String^ Analyse(String ^data, String ^pathToBase)
@@ -70,6 +77,7 @@ namespace MDP {
 				System::IO::DirectoryInfo ^root = gcnew System::IO::DirectoryInfo(pathToBase);		
 				array<DirectoryInfo^> ^directories = root->GetDirectories();
 
+
 				if (directories->Length == 0)
 				{
 					MessageBox::Show("В выбранной базе еще нет созданных классов семян");
@@ -80,6 +88,7 @@ namespace MDP {
 				for (int i = 0; i < directories->Length; i++)
 				{
 					array<FileInfo^> ^files = directories[i]->GetFiles();
+
 					if (files->Length == 0)
 					{
 						MessageBox::Show("Произошла ошибка. В классе " + directories[i]->Name + " в базе отсутствуют сохраненные семена. Программа продолжит работу, но этот класс не будет доступен для работы. Проверьте базу.");
@@ -89,10 +98,10 @@ namespace MDP {
 
 					StreamReader ^reader = File::OpenText(file->FullName);
 					String^ text = reader->ReadLine();	
-
+					reader->Close();
 					array<String^> ^baseElements = text->Split('|');
 					array<String^> ^dataElements = data->Split('|');
-
+					
 					double distance = 0;
 					for (int k = 0; k < dataElements->Length - 1; k++)
 					{
