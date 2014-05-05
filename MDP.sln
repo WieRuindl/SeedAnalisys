@@ -5,14 +5,23 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MDP", "MDP\MDP.vcxproj", "{
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		CD_ROM|Win32 = CD_ROM|Win32
 		Debug|Win32 = Debug|Win32
+		DVD-5|Win32 = DVD-5|Win32
 		Release|Win32 = Release|Win32
+		SingleImage|Win32 = SingleImage|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BD8ECEB5-9445-4054-9CAD-77CC59C0F7ED}.CD_ROM|Win32.ActiveCfg = Release|Win32
+		{BD8ECEB5-9445-4054-9CAD-77CC59C0F7ED}.CD_ROM|Win32.Build.0 = Release|Win32
 		{BD8ECEB5-9445-4054-9CAD-77CC59C0F7ED}.Debug|Win32.ActiveCfg = Debug|Win32
 		{BD8ECEB5-9445-4054-9CAD-77CC59C0F7ED}.Debug|Win32.Build.0 = Debug|Win32
+		{BD8ECEB5-9445-4054-9CAD-77CC59C0F7ED}.DVD-5|Win32.ActiveCfg = Debug|Win32
+		{BD8ECEB5-9445-4054-9CAD-77CC59C0F7ED}.DVD-5|Win32.Build.0 = Debug|Win32
 		{BD8ECEB5-9445-4054-9CAD-77CC59C0F7ED}.Release|Win32.ActiveCfg = Release|Win32
 		{BD8ECEB5-9445-4054-9CAD-77CC59C0F7ED}.Release|Win32.Build.0 = Release|Win32
+		{BD8ECEB5-9445-4054-9CAD-77CC59C0F7ED}.SingleImage|Win32.ActiveCfg = Release|Win32
+		{BD8ECEB5-9445-4054-9CAD-77CC59C0F7ED}.SingleImage|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -105,7 +105,9 @@
     <ClInclude Include="SaveResultForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="StaticClassFunctions.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="UnitTests.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="app.rc" />

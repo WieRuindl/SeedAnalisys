@@ -1,32 +1,43 @@
 #pragma once
 
 namespace MDP {
-
 	using namespace System;
 	using namespace System::ComponentModel;
 	using namespace System::Collections;
 	using namespace System::Windows::Forms;
 	using namespace System::Data;
 	using namespace System::Drawing;
+	using namespace std;
+	using namespace System::IO;
 
-	/// <summary>
-	/// Summary for SaveResultForm
-	/// </summary>
 	public ref class SaveResultForm : public System::Windows::Forms::Form
 	{
 	public:
 		SaveResultForm(void)
 		{
 			InitializeComponent();
-			//
-			//TODO: Add the constructor code here
-			//
+		}
+
+		SaveResultForm(String ^_pathToBase, String ^_data, String ^_report)
+		{
+			InitializeComponent();
+			
+			data = _data;
+			report = _report;
+			pathToBase = _pathToBase;
+
+			array<String^> ^options = report->Split(';');
+			
+			for (int i = 0; i < options->Length - 1; i++)
+			{
+				String ^option = "";
+				option += options[i]->Split('|')[0] + " | " + options[i]->Split('|')[1];
+				
+				listBoxClassNames->Items->Add(option);
+			}
 		}
 
 	protected:
-		/// <summary>
-		/// Clean up any resources being used.
-		/// </summary>
 		~SaveResultForm()
 		{
 			if (components)
@@ -46,19 +57,10 @@ namespace MDP {
 	private: System::Windows::Forms::Button^  buttonSaveInClass;
 	private: System::Windows::Forms::Button^  buttonCreateNewClass;
 
-
-
 	private:
-		/// <summary>
-		/// Required designer variable.
-		/// </summary>
 		System::ComponentModel::Container ^components;
 
 #pragma region Windows Form Designer generated code
-		/// <summary>
-		/// Required method for Designer support - do not modify
-		/// the contents of this method with the code editor.
-		/// </summary>
 		void InitializeComponent(void)
 		{
 			this->listBoxClassNames = (gcnew System::Windows::Forms::ListBox());
@@ -127,6 +129,7 @@ namespace MDP {
 			this->buttonSaveInClass->TabIndex = 5;
 			this->buttonSaveInClass->Text = L"Сохранить в выбранный класс";
 			this->buttonSaveInClass->UseVisualStyleBackColor = true;
+			this->buttonSaveInClass->Click += gcnew System::EventHandler(this, &SaveResultForm::buttonSaveInClass_Click);
 			// 
 			// buttonCreateNewClass
 			// 
@@ -136,6 +139,7 @@ namespace MDP {
 			this->buttonCreateNewClass->TabIndex = 6;
 			this->buttonCreateNewClass->Text = L"Создать";
 			this->buttonCreateNewClass->UseVisualStyleBackColor = true;
+			this->buttonCreateNewClass->Click += gcnew System::EventHandler(this, &SaveResultForm::buttonCreateNewClass_Click);
 			// 
 			// SaveResultForm
 			// 
@@ -150,11 +154,75 @@ namespace MDP {
 			this->Controls->Add(this->label2);
 			this->Controls->Add(this->label1);
 			this->Controls->Add(this->listBoxClassNames);
+			this->FormBorderStyle = System::Windows::Forms::FormBorderStyle::FixedToolWindow;
 			this->Name = L"SaveResultForm";
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
 		}
 #pragma endregion
-	};
+
+	private:
+		String ^pathToBase;
+		String ^report;
+		String ^data;
+
+		System::Void buttonCreateNewClass_Click(System::Object^  sender, System::EventArgs^  e) 
+		{
+			if (textBoxClassName->Text != "")
+			{
+				String ^path = pathToBase + "\\" + textBoxClassName->Text;
+				if (Directory::Exists(path))
+				{
+					MessageBox::Show("Класс с таким именем уже существует, измените название");
+				}
+				else
+				{
+					System::IO::Directory::CreateDirectory(path);
+					SaveFile(path);
+					this->Close();
+				}
+			}
+			else
+			{
+				MessageBox::Show("Вы должны ввести название для нового класса");
+			}
+		}
+		
+		System::Void buttonSaveInClass_Click(System::Object^  sender, System::EventArgs^  e) 
+		{
+			if (listBoxClassNames->SelectedItem != nullptr)
+			{
+				String ^path = pathToBase + "\\" + listBoxClassNames->SelectedItem->ToString()->Split()[0];
+				SaveFile(path);
+				this->Close();
+			}
+			else
+			{
+				MessageBox::Show("Вы не выбрали класс");
+			}
+		}
+
+		System::String^ SaveFile(String ^path)
+		{
+			SaveFileDialog ^saveFileDialog = gcnew SaveFileDialog();
+			saveFileDialog->InitialDirectory = path;
+			saveFileDialog->Filter = "Текстовые файлы|*.txt";
+
+			if (saveFileDialog->ShowDialog() == System::Windows::Forms::DialogResult::OK)
+			{
+				String ^pathToFile = saveFileDialog->FileName;
+				StreamWriter^ writer = gcnew StreamWriter(pathToFile);
+
+				writer->Write(data);
+				writer->Close();
+
+				return gcnew String("Файл сохранен успешно!");
+			}
+			else
+			{
+				return gcnew String("Вы не сохранили файл!");
+			}
+		}
+};
 }
